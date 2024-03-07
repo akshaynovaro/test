@@ -1,0 +1,21 @@
+name: build github
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: "1.20"
+    - name: Install dependencies
+      run: go mod download && go mod tidy && go mod verify
+    - name: Build
+      run: go build -o app
+    - name: test go application
+      run: go test ./...
